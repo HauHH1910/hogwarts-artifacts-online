@@ -1,6 +1,6 @@
 package com.hauhh.hogwartsartifactsonline.artifact;
 
-import com.hauhh.hogwartsartifactsonline.artifact.conveter.ArtifactDTOTOArtifactConverter;
+import com.hauhh.hogwartsartifactsonline.artifact.conveter.ArtifactDTOToArtifactConverter;
 import com.hauhh.hogwartsartifactsonline.artifact.conveter.ArtifactToArtifactDTOConverter;
 import com.hauhh.hogwartsartifactsonline.system.Result;
 import com.hauhh.hogwartsartifactsonline.system.StatusCode;
@@ -18,7 +18,7 @@ public class ArtifactController {
 
     private final ArtifactService artifactService;
     private final ArtifactToArtifactDTOConverter entityTOdto;
-    private final ArtifactDTOTOArtifactConverter dtoToEntity;
+    private final ArtifactDTOToArtifactConverter dtoToEntity;
 
     @GetMapping("/{artifactID}")
     public Result<ArtifactDTO> findArtifactByID(@PathVariable String artifactID) {
@@ -26,7 +26,9 @@ public class ArtifactController {
                 .flag(true)
                 .code(StatusCode.SUCCESS)
                 .message("Find One Success")
-                .data(entityTOdto.convert(artifactService.findById(artifactID)))
+                .data(this.entityTOdto.convert(
+                        this.artifactService.findById(artifactID)
+                ))
                 .build();
     }
 
@@ -36,7 +38,7 @@ public class ArtifactController {
                 .flag(true)
                 .code(StatusCode.SUCCESS)
                 .message("Find All Success")
-                .data(artifactService.findAll().stream()
+                .data(this.artifactService.findAll().stream()
                         .map(entityTOdto::convert).toList())
                 .build();
     }
@@ -49,7 +51,11 @@ public class ArtifactController {
                 .message("Add Success")
                 .data(this.entityTOdto.convert(
                         this.artifactService.addArtifact(
-                                Objects.requireNonNull(dtoToEntity.convert(artifactDTO))
+                                Objects.requireNonNull(
+                                        dtoToEntity.convert(
+                                                artifactDTO
+                                        )
+                                )
                         )))
                 .build();
     }
@@ -62,7 +68,9 @@ public class ArtifactController {
                 .message("Update Success")
                 .data(this.entityTOdto.convert(
                         this.artifactService.updateArtifact(
-                                artifactID, this.dtoToEntity.convert(artifactDTO)
+                                artifactID, this.dtoToEntity.convert(
+                                        artifactDTO
+                                )
                         )))
                 .build();
     }

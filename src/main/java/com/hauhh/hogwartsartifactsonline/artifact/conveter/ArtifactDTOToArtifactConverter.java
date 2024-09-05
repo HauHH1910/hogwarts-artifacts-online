@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class ArtifactDTOTOArtifactConverter implements Converter<ArtifactDTO, Artifact> {
+public class ArtifactDTOToArtifactConverter implements Converter<ArtifactDTO, Artifact> {
 
     @Override
     public Artifact convert(ArtifactDTO source) {

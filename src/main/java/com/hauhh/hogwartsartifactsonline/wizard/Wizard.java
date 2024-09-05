@@ -1,6 +1,5 @@
 package com.hauhh.hogwartsartifactsonline.wizard;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hauhh.hogwartsartifactsonline.artifact.Artifact;
 import jakarta.persistence.*;
 import lombok.*;
@@ -39,5 +38,15 @@ public class Wizard implements Serializable {
 
     public Integer getNumberOfArtifacts() {
         return this.artifacts.size();
+    }
+
+    public void removeArtifact(Artifact artifactToBeAssigned) {
+        artifactToBeAssigned.setOwner(null);
+        this.artifacts.remove(artifactToBeAssigned);
+    }
+
+    public void removeAllArtifacts() {
+        this.artifacts.forEach(artifact -> artifact.setOwner(null));
+        this.artifacts = null;
     }
 }
