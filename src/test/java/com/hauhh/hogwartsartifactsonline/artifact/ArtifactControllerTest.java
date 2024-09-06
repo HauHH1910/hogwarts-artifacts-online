@@ -1,8 +1,8 @@
 package com.hauhh.hogwartsartifactsonline.artifact;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hauhh.hogwartsartifactsonline.system.exception.ArtifactNotFoundException;
 import com.hauhh.hogwartsartifactsonline.system.StatusCode;
+import com.hauhh.hogwartsartifactsonline.system.exception.ObjectNotFoundException;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,11 +40,14 @@ class ArtifactControllerTest {
 
     private List<Artifact> artifacts;
 
-    @Value("${hogwart.url.artifact}")
+    @Value("${api.endpoint.url}")
     private String baseArtifactURL;
 
     @BeforeEach
     void setUp() {
+
+        this.baseArtifactURL += "/artifacts";
+
         this.artifacts = new ArrayList<>();
 
         Artifact a1 = Artifact.builder()
@@ -112,7 +115,7 @@ class ArtifactControllerTest {
     @Test
     void testFindArtifactByIDNotFound() throws Exception {
         //Given
-        given(this.artifactService.findById("1250808601744904191")).willThrow(new ArtifactNotFoundException("1250808601744904191"));
+        given(this.artifactService.findById("1250808601744904191")).willThrow(new ObjectNotFoundException("artifact", "1250808601744904191"));
         //When and Then
         this.mockMvc.perform(get(this.baseArtifactURL + "/1250808601744904191")
                         .accept(MediaType.APPLICATION_JSON))
@@ -217,7 +220,7 @@ class ArtifactControllerTest {
         String requestBody = this.objectMapper.writeValueAsString(artifactDTO);
 
         given(this.artifactService.updateArtifact(eq("1250808601744904192"), any(Artifact.class)))
-                .willThrow(new ArtifactNotFoundException("1250808601744904192"));
+                .willThrow(new ObjectNotFoundException("artifact", "1250808601744904192"));
         //When Then
         this.mockMvc.perform(put(baseArtifactURL + "/1250808601744904192")
                         .content(requestBody)
@@ -246,9 +249,9 @@ class ArtifactControllerTest {
     @Test
     void testDeleteArtifactErrorWithNonExistentArtifactID() throws Exception {
         //Given
-        doThrow(new ArtifactNotFoundException("1250808601744904191")).when(this.artifactService).deleteArtifact("1250808601744904191");
+        doThrow(new ObjectNotFoundException("artifact", "1250808601744904191")).when(this.artifactService).deleteArtifact("1250808601744904191");
         //When then
-        this.mockMvc.perform(delete(this.baseArtifactURL +"/1250808601744904191")
+        this.mockMvc.perform(delete(this.baseArtifactURL + "/1250808601744904191")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.flag").value(false))
                 .andExpect(jsonPath("$.code").value(StatusCode.NOT_FOUND))

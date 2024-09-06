@@ -3,8 +3,7 @@ package com.hauhh.hogwartsartifactsonline.wizard;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hauhh.hogwartsartifactsonline.artifact.Artifact;
 import com.hauhh.hogwartsartifactsonline.system.StatusCode;
-import com.hauhh.hogwartsartifactsonline.system.exception.ArtifactNotFoundException;
-import com.hauhh.hogwartsartifactsonline.system.exception.WizardNotFoundException;
+import com.hauhh.hogwartsartifactsonline.system.exception.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -47,11 +46,15 @@ class WizardControllerTest {
 
     private List<Artifact> artifacts;
 
-    @Value("${hogwart.url.wizard}")
+    @Value("${api.endpoint.url}")
     private String baseWizardURL;
 
     @BeforeEach
     void setUp() {
+
+        this.baseWizardURL += "/wizard";
+
+
         Artifact firstArtifact = Artifact.builder()
                 .artifactID("1250808601744904192")
                 .name("Invisibility Cloak")
@@ -158,7 +161,7 @@ class WizardControllerTest {
     @Test
     void testGetWizardByIDNotFoundException() throws Exception {
         //Given
-        given(wizardService.getWizardByID(1)).willThrow(new WizardNotFoundException(1));
+        given(wizardService.getWizardByID(1)).willThrow(new ObjectNotFoundException("wizard", 1));
         //When then
         this.mockMvc.perform(get(this.baseWizardURL + "/1")
                         .accept(MediaType.APPLICATION_JSON)
@@ -244,7 +247,7 @@ class WizardControllerTest {
 
         String requestBody = this.objectMapper.writeValueAsString(wizardDTO);
 
-        given(wizardService.updateWizard(eq(1), Mockito.any(Wizard.class))).willThrow(new WizardNotFoundException(1));
+        given(wizardService.updateWizard(eq(1), Mockito.any(Wizard.class))).willThrow(new ObjectNotFoundException("wizard", 1));
         //When then
         this.mockMvc.perform(put(this.baseWizardURL + "/1")
                         .content(requestBody)
@@ -273,7 +276,7 @@ class WizardControllerTest {
     @Test
     void testDeleteWizardNotFound() throws Exception {
         //Given
-        doThrow(new WizardNotFoundException(1)).when(wizardService).deleteWizard(1);
+        doThrow(new ObjectNotFoundException("wizard", 1)).when(wizardService).deleteWizard(1);
         //When then
         this.mockMvc.perform(delete(this.baseWizardURL + "/1")
                         .accept(MediaType.APPLICATION_JSON)
@@ -301,11 +304,11 @@ class WizardControllerTest {
     @Test
     void testAssignArtifactToWizardNotFound() throws Exception {
         //Given
-        doThrow(new WizardNotFoundException(1)).when(this.wizardService).assignArtifactToWizard(1, "1250808601744904190");
+        doThrow(new ObjectNotFoundException("wizard", 1)).when(this.wizardService).assignArtifactToWizard(1, "1250808601744904190");
         //When then
         this.mockMvc.perform(put(this.baseWizardURL + "/1/artifacts/1250808601744904190")
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.flag").value(false))
                 .andExpect(jsonPath("$.code").value(StatusCode.NOT_FOUND))
                 .andExpect(jsonPath("$.message").value("Could not find wizard with ID: 1"))
@@ -315,7 +318,7 @@ class WizardControllerTest {
     @Test
     void testAssignArtifactToWizardArtifactNotFound() throws Exception {
         //Given
-        doThrow(new ArtifactNotFoundException("1250808601744904190")).when(this.wizardService).assignArtifactToWizard(1, "1250808601744904190");
+        doThrow(new ObjectNotFoundException("artifact", "1250808601744904190")).when(this.wizardService).assignArtifactToWizard(1, "1250808601744904190");
         //When then
         this.mockMvc.perform(put(this.baseWizardURL + "/1/artifacts/1250808601744904190")
                         .accept(MediaType.APPLICATION_JSON)

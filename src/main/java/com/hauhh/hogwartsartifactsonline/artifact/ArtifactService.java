@@ -1,6 +1,6 @@
 package com.hauhh.hogwartsartifactsonline.artifact;
 
-import com.hauhh.hogwartsartifactsonline.system.exception.ArtifactNotFoundException;
+import com.hauhh.hogwartsartifactsonline.system.exception.ObjectNotFoundException;
 import com.hauhh.hogwartsartifactsonline.system.utils.IDUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ public class ArtifactService {
     private final IDUtil IDUtil;
 
     public Artifact findById(String artifactID) {
-        return this.artifactRepository.findById(artifactID).orElseThrow(() -> new ArtifactNotFoundException(artifactID));
+        return this.artifactRepository.findById(artifactID).orElseThrow(() -> new ObjectNotFoundException("artifact",artifactID));
     }
 
     public List<Artifact> findAll() {
@@ -39,12 +39,12 @@ public class ArtifactService {
 
                     return this.artifactRepository.save(oldArtifact);
 
-                }).orElseThrow(() -> new ArtifactNotFoundException(artifactID));
+                }).orElseThrow(() -> new ObjectNotFoundException("artifact",artifactID));
     }
 
     public void deleteArtifact(String artifactID) {
         Artifact artifact = this.artifactRepository.findById(artifactID)
-                .orElseThrow(() -> new ArtifactNotFoundException(artifactID));
+                .orElseThrow(() -> new ObjectNotFoundException("artifact",artifactID));
         this.artifactRepository.deleteById(artifact.getArtifactID());
     }
 }
