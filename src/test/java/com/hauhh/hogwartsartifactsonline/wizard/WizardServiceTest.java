@@ -2,8 +2,7 @@ package com.hauhh.hogwartsartifactsonline.wizard;
 
 import com.hauhh.hogwartsartifactsonline.artifact.Artifact;
 import com.hauhh.hogwartsartifactsonline.artifact.ArtifactRepository;
-import com.hauhh.hogwartsartifactsonline.system.exception.ArtifactNotFoundException;
-import com.hauhh.hogwartsartifactsonline.system.exception.WizardNotFoundException;
+import com.hauhh.hogwartsartifactsonline.system.exception.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -146,7 +145,7 @@ class WizardServiceTest {
             wizardService.getWizardByID(1);
         });
         //Then
-        assertThat(throwable).isInstanceOf(WizardNotFoundException.class);
+        assertThat(throwable).isInstanceOf(ObjectNotFoundException.class);
     }
 
     @Test
@@ -204,7 +203,7 @@ class WizardServiceTest {
                     .build());
         });
         //Then
-        assertThat(throwable).isInstanceOf(WizardNotFoundException.class);
+        assertThat(throwable).isInstanceOf(ObjectNotFoundException.class);
 
         verify(wizardRepository, times(1)).findById(1);
     }
@@ -229,7 +228,7 @@ class WizardServiceTest {
             wizardService.deleteWizard(1);
         });
         //Then
-        assertThat(throwable).isInstanceOf(WizardNotFoundException.class);
+        assertThat(throwable).isInstanceOf(ObjectNotFoundException.class);
     }
 
     @Test
@@ -270,7 +269,7 @@ class WizardServiceTest {
             wizardService.assignArtifactToWizard(1, "1250808601744904190");
         });
 
-        assertThat(throwable).isInstanceOf(WizardNotFoundException.class);
+        assertThat(throwable).isInstanceOf(ObjectNotFoundException.class);
     }
 
     @Test
@@ -286,6 +285,6 @@ class WizardServiceTest {
             wizardService.assignArtifactToWizard(1, "1250808601744904190");
         });
 
-        assertThat(throwable).isInstanceOf(ArtifactNotFoundException.class);
+        assertThat(throwable).isInstanceOf(ObjectNotFoundException.class);
     }
 }

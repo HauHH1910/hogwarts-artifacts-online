@@ -17,24 +17,14 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalHandlerException {
 
-    @ExceptionHandler(ArtifactNotFoundException.class)
-    Result handleArtifactNotFoundException(Exception e) {
+    @ExceptionHandler(ObjectNotFoundException.class)
+    Result handleArtifactNotFoundException(ObjectNotFoundException e) {
         return Result.builder()
                 .flag(false)
                 .code(StatusCode.NOT_FOUND)
                 .message(e.getMessage())
                 .build();
     }
-
-    @ExceptionHandler(WizardNotFoundException.class)
-    Result handleWizardNotFoundException(Exception e) {
-        return Result.builder()
-                .flag(false)
-                .code(StatusCode.NOT_FOUND)
-                .message(e.getMessage())
-                .build();
-    }
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     Result handleValidationException(MethodArgumentNotValidException ex) {

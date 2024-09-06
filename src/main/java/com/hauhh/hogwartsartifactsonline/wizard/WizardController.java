@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/wizard")
+@RequestMapping("${api.endpoint.url}/wizard")
 public class WizardController {
 
     private final WizardService wizardService;

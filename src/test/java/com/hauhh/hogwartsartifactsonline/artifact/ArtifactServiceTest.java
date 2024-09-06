@@ -1,5 +1,6 @@
 package com.hauhh.hogwartsartifactsonline.artifact;
 
+import com.hauhh.hogwartsartifactsonline.system.exception.ObjectNotFoundException;
 import com.hauhh.hogwartsartifactsonline.system.utils.IDUtil;
 import com.hauhh.hogwartsartifactsonline.wizard.Wizard;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,7 +10,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import com.hauhh.hogwartsartifactsonline.system.exception.ArtifactNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,7 +100,7 @@ class ArtifactServiceTest {
         });
         //Then
         assertThat(throwable)
-                .isInstanceOf(ArtifactNotFoundException.class)
+                .isInstanceOf(ObjectNotFoundException.class)
                 .hasMessage("Could not find artifact with ID: 1250808601744904192");
 
         verify(artifactRepository, times(1)).findById("1250808601744904192");
@@ -186,7 +186,7 @@ class ArtifactServiceTest {
 
         given(artifactRepository.findById("1231231212313")).willReturn(Optional.empty());
         //When
-        assertThrows(ArtifactNotFoundException.class, () -> {
+        assertThrows(ObjectNotFoundException.class, () -> {
             artifactService.updateArtifact("1231231212313", updateArtifact);
         });
         //Then
@@ -222,7 +222,7 @@ class ArtifactServiceTest {
         //When
         given(artifactRepository.findById("1231231212313")).willReturn(Optional.empty());
         //Then
-        assertThrows(ArtifactNotFoundException.class, () -> {
+        assertThrows(ObjectNotFoundException.class, () -> {
             artifactService.deleteArtifact("1231231212313");
         });
 

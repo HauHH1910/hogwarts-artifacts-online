@@ -2,8 +2,7 @@ package com.hauhh.hogwartsartifactsonline.wizard;
 
 import com.hauhh.hogwartsartifactsonline.artifact.Artifact;
 import com.hauhh.hogwartsartifactsonline.artifact.ArtifactRepository;
-import com.hauhh.hogwartsartifactsonline.system.exception.ArtifactNotFoundException;
-import com.hauhh.hogwartsartifactsonline.system.exception.WizardNotFoundException;
+import com.hauhh.hogwartsartifactsonline.system.exception.ObjectNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,7 @@ public class WizardService {
 
     public Wizard getWizardByID(Integer wizardID) {
         return this.wizardRepository.findById(wizardID).orElseThrow(
-                () -> new WizardNotFoundException(wizardID)
+                () -> new ObjectNotFoundException("wizard", wizardID)
         );
     }
 
@@ -41,19 +40,19 @@ public class WizardService {
 
                     return this.wizardRepository.save(wizard);
                 }
-        ).orElseThrow(() -> new WizardNotFoundException(wizardID));
+        ).orElseThrow(() -> new ObjectNotFoundException("wizard", wizardID));
     }
 
     public void deleteWizard(Integer wizardID) {
-        this.wizardRepository.findById(wizardID).orElseThrow(() -> new WizardNotFoundException(wizardID));
+        this.wizardRepository.findById(wizardID).orElseThrow(() -> new ObjectNotFoundException("wizard", wizardID));
         this.wizardRepository.deleteById(wizardID);
     }
 
     public void assignArtifactToWizard(Integer wizardID, String artifactID) {
         Wizard wizard = this.wizardRepository.findById(wizardID).orElseThrow(
-                () -> new WizardNotFoundException(wizardID));
+                () -> new ObjectNotFoundException("wizard", wizardID));
         Artifact artifact = this.artifactRepository.findById(artifactID).orElseThrow(
-                () -> new ArtifactNotFoundException(artifactID));
+                () -> new ObjectNotFoundException("artifact", artifactID));
 
         if (artifact.getOwner() != null) {
             artifact.getOwner().removeArtifact(artifact);

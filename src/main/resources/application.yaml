@@ -8,8 +8,6 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create-drop
-
-hogwart:
-  url:
-    wizard: "/api/v1/wizard"
-    artifact: "/api/v1/artifacts"
+api:
+  endpoint:
+    url: /api/v1
