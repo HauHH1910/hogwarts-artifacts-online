@@ -1,13 +1,20 @@
 spring:
   datasource:
-    url: 'jdbc:h2:mem:test;DB_CLOSE_DELAY=-1'
+    url: 'jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE'
     username: sa
-    password: 123
+    password:
     driver-class-name: org.h2.Driver
   jpa:
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+  security:
+    user:
+      name: game
+      password: 123
 api:
   endpoint:
     url: /api/v1
