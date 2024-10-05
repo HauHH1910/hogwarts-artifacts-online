@@ -101,6 +101,9 @@
                 </configuration>
             </plugin>
         </plugins>
+
+        <finalName>HogwartArtifact</finalName>
     </build>
+
 
 </project>
