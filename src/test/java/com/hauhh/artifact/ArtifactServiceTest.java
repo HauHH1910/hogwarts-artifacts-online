@@ -7,6 +7,7 @@ import com.hauhh.exception.ObjectNotFoundException;
 import com.hauhh.utils.IDUtil;
 import com.hauhh.model.Wizard;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -25,6 +26,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("Unit Test For Artifact Service")
 class ArtifactServiceTest {
 
     @Mock //Using this annotation to real object we want to simulate, don't call the real artifact
@@ -77,6 +79,7 @@ class ArtifactServiceTest {
     }
 
     @Test
+    @DisplayName("Test Find Artifact with VALID artifactID (GET)")
     void testFindByIdSuccess() {
         //1. Given:
         given(artifactRepository.findById("1250808601744904192"))
@@ -94,6 +97,7 @@ class ArtifactServiceTest {
 
 
     @Test
+    @DisplayName("Test find Artifact with INVALID artifactID (GET)")
     void testFindByIdNotFound() {
         //Given
         given(artifactRepository.findById(Mockito.any(String.class))).willReturn(Optional.empty());
@@ -112,6 +116,7 @@ class ArtifactServiceTest {
 
 
     @Test
+    @DisplayName("Test Find All Artifact (GET)")
     void testFindAllSuccess() {
         //Given
         given(artifactRepository.findAll()).willReturn(this.artifacts);
@@ -124,6 +129,7 @@ class ArtifactServiceTest {
     }
 
     @Test
+    @DisplayName("Test Add Artifact With VALID INPUT (POST)")
     void testSaveSuccess() {
         //Given
         Artifact newArtifact = Artifact.builder()
@@ -147,6 +153,7 @@ class ArtifactServiceTest {
     }
 
     @Test
+    @DisplayName("Test Update Artifact With VALID INPUT (PUT)")
     void testUpdateSuccess() {
         //Given
         Artifact oldArtifact = Artifact.builder()
@@ -178,6 +185,7 @@ class ArtifactServiceTest {
     }
 
     @Test
+    @DisplayName("Test Update Artifact With INVALID INPUT (PUT)")
     void testUpdateNotFound() {
         //Given
         Artifact updateArtifact = Artifact.builder()
@@ -197,6 +205,7 @@ class ArtifactServiceTest {
     }
 
     @Test
+    @DisplayName("Test Delete Artifact with VALID artifactID (DELETE)")
     void testDeleteSuccess() {
         //Given
         Artifact artifact = Artifact.builder()
@@ -214,6 +223,7 @@ class ArtifactServiceTest {
     }
 
     @Test
+    @DisplayName("Test Delete Artifact with artifactID (DELETE)")
     void testDeleteNotFound() {
         //Given
         Artifact artifact = Artifact.builder()

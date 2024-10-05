@@ -6,6 +6,7 @@ import com.hauhh.service.UserService;
 import com.hauhh.exception.ObjectNotFoundException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,6 +25,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("Unit Test for User Service")
 class UserServiceTest {
 
     @InjectMocks
@@ -68,6 +70,7 @@ class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Test Save User (POST)")
     void testCreateUserSuccess() {
         //Given
         given(this.passwordEncoder.encode(user.getPassword())).willReturn("pw");
@@ -84,6 +87,7 @@ class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Test Get All User (GET)")
     void testGetAllUserSuccess() {
         //Given
         given(userRepository.findAll()).willReturn(this.users);
@@ -104,6 +108,7 @@ class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Test Get User With VALID Input (GET)")
     void testGetUserByIDSuccess() {
         //Given
         given(userRepository.findById(1)).willReturn(Optional.of(user));
@@ -119,6 +124,7 @@ class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Test Get User With INVALID Input (GET)")
     void testGetUserByIDNotFound() {
         //Given
         given(userRepository.findById(1)).willReturn(Optional.empty());
@@ -131,6 +137,7 @@ class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Test Update User With VALID Input (PUT)")
     void testUpdateUserSuccess() {
         //given
         User existingUser = User.builder()
@@ -161,7 +168,8 @@ class UserServiceTest {
     }
 
     @Test
-    void testUpdateNotFound(){
+    @DisplayName("Test Update User With INVALID Input (PUT)")
+    void testUpdateNotFound() {
         //Given
         given(userRepository.findById(1)).willReturn(Optional.empty());
         //When
@@ -173,6 +181,7 @@ class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Test Delete User With VALID Input (DELETE)")
     void testDeleteUserSuccess() {
         //Given
         given(userRepository.findById(1)).willReturn(Optional.of(user));
@@ -185,7 +194,8 @@ class UserServiceTest {
     }
 
     @Test
-    void testDeleteUserNotFound(){
+    @DisplayName("Test Delete User With INVALID Input (DELETE)")
+    void testDeleteUserNotFound() {
         //Given
         given(userRepository.findById(1)).willReturn(Optional.empty());
         //When

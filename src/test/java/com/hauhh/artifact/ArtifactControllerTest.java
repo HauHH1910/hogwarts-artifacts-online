@@ -8,6 +8,7 @@ import com.hauhh.common.StatusCode;
 import com.hauhh.exception.ObjectNotFoundException;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,6 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)//Turn off Spring Security
+@DisplayName("Unit Test for Artifact Controller")
 class ArtifactControllerTest {
 
     @Autowired
@@ -99,6 +101,7 @@ class ArtifactControllerTest {
     }
 
     @Test
+    @DisplayName("Test Find Artifact With VALID artifactID (GET)")
     void testFindArtifactByIDSuccess() throws Exception {
         //Given
         given(this.artifactService.findById("1250808601744904191")).willReturn(this.artifacts.get(0));
@@ -116,6 +119,7 @@ class ArtifactControllerTest {
 
 
     @Test
+    @DisplayName("Test Find Artifact With INVALID artifactID (GET)")
     void testFindArtifactByIDNotFound() throws Exception {
         //Given
         given(this.artifactService.findById("1250808601744904191")).willThrow(new ObjectNotFoundException("artifact", "1250808601744904191"));
@@ -129,6 +133,7 @@ class ArtifactControllerTest {
     }
 
     @Test
+    @DisplayName("Test Find All Artifact (GET)")
     void testFindAllArtifactSuccess() throws Exception {
         //Given
         given(this.artifactService.findAll()).willReturn(this.artifacts);
@@ -145,6 +150,7 @@ class ArtifactControllerTest {
     }
 
     @Test
+    @DisplayName("Test Save Artifact With VALID INPUT (POST)")
     void testSaveArtifactSuccess() throws Exception {
         //Given
         ArtifactDTO artifactDTO = ArtifactDTO.builder()
@@ -178,6 +184,7 @@ class ArtifactControllerTest {
     }
 
     @Test
+    @DisplayName("Test Update Artifact With VALID INPUT (PUT)")
     void testUpdateArtifactSuccess() throws Exception {
         //Given
         ArtifactDTO artifactDTO = ArtifactDTO.builder()
@@ -212,6 +219,7 @@ class ArtifactControllerTest {
     }
 
     @Test
+    @DisplayName("Test Update Artifact With INVALID INPUT (PUT)")
     void testUpdateArtifactErrorWithNonExistentArtifactID() throws Exception {
         //Given
         ArtifactDTO artifactDTO = ArtifactDTO.builder()
@@ -236,6 +244,7 @@ class ArtifactControllerTest {
     }
 
     @Test
+    @DisplayName("Test Delete Artifact With VALID artifactID (DELETE)")
     void testDeleteArtifactSuccess() throws Exception {
         //Given
         doNothing().when(this.artifactService).deleteArtifact("1250808601744904192");
@@ -250,6 +259,7 @@ class ArtifactControllerTest {
     }
 
     @Test
+    @DisplayName("Test Delete Artifact With INVALID artifactID (DELETE)")
     void testDeleteArtifactErrorWithNonExistentArtifactID() throws Exception {
         //Given
         doThrow(new ObjectNotFoundException("artifact", "1250808601744904191")).when(this.artifactService).deleteArtifact("1250808601744904191");
