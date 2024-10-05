@@ -8,6 +8,7 @@ import com.hauhh.service.WizardService;
 import com.hauhh.exception.ObjectNotFoundException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,6 +25,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("Unit Test for Wizard Service")
 class WizardServiceTest {
 
     @InjectMocks

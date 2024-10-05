@@ -8,6 +8,7 @@ import com.hauhh.service.WizardService;
 import com.hauhh.common.StatusCode;
 import com.hauhh.exception.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)//Turn off Spring Security
+@DisplayName("Unit Test for Wizard Controller")
 class WizardControllerTest {
 
     @Autowired
@@ -125,6 +127,7 @@ class WizardControllerTest {
     }
 
     @Test
+    @DisplayName("Test Find All Wizard (GET)")
     void testGetAllSuccess() throws Exception {
         //Given
         given(wizardService.getAllWizard()).willReturn(this.wizards);
@@ -145,6 +148,7 @@ class WizardControllerTest {
     }
 
     @Test
+    @DisplayName("Test Get Wizard With VALID wizardID (GET)")
     void testGetWizardByIDSuccess() throws Exception {
         //Given
         given(wizardService.getWizardByID(1)).willReturn(this.firstWizard);
@@ -162,6 +166,7 @@ class WizardControllerTest {
     }
 
     @Test
+    @DisplayName("Test Get Wizard With INVALID wizardID (GET)")
     void testGetWizardByIDNotFoundException() throws Exception {
         //Given
         given(wizardService.getWizardByID(1)).willThrow(new ObjectNotFoundException("wizard", 1));
@@ -176,6 +181,7 @@ class WizardControllerTest {
     }
 
     @Test
+    @DisplayName("Test Save Wizard Success (POST)")
     void testSaveWizardSuccess() throws Exception {
         //Given
         WizardDTO wizardDTO = WizardDTO.builder()
@@ -208,6 +214,7 @@ class WizardControllerTest {
     }
 
     @Test
+    @DisplayName("Test Update Wizard With VALID Input (PUT)")
     void testUpdateWizardSuccess() throws Exception {
         //Given
         Wizard existingWizard = Wizard.builder()
@@ -240,6 +247,7 @@ class WizardControllerTest {
     }
 
     @Test
+    @DisplayName("Test Update Wizard With INVALID Input (PUT)")
     void testUpdateWizardNotFound() throws Exception {
         //Given
         WizardDTO wizardDTO = WizardDTO.builder()
@@ -263,6 +271,7 @@ class WizardControllerTest {
     }
 
     @Test
+    @DisplayName("Test Delete Wizard With VALID wizardID (DELETE)")
     void testDeleteWizardSuccess() throws Exception {
         //Given
         doNothing().when(wizardService).deleteWizard(1);
@@ -277,6 +286,7 @@ class WizardControllerTest {
     }
 
     @Test
+    @DisplayName("Test Delete Wizard With INVALID wizardID (DELETE)")
     void testDeleteWizardNotFound() throws Exception {
         //Given
         doThrow(new ObjectNotFoundException("wizard", 1)).when(wizardService).deleteWizard(1);
@@ -291,6 +301,7 @@ class WizardControllerTest {
     }
 
     @Test
+    @DisplayName("Test Assign Artifact To Wizard Success (POST)")
     void testAssignArtifactToWizardSuccess() throws Exception {
         //Given
         doNothing().when(this.wizardService).assignArtifactToWizard(1, "1250808601744904190");
@@ -305,6 +316,7 @@ class WizardControllerTest {
     }
 
     @Test
+    @DisplayName("Test Assign Artifact To Wizard With INVALID wizardID (POST)")
     void testAssignArtifactToWizardNotFound() throws Exception {
         //Given
         doThrow(new ObjectNotFoundException("wizard", 1)).when(this.wizardService).assignArtifactToWizard(1, "1250808601744904190");
@@ -319,6 +331,7 @@ class WizardControllerTest {
     }
 
     @Test
+    @DisplayName("Test Assign Artifact To Wizard With INVALID wizardID (POST)")
     void testAssignArtifactToWizardArtifactNotFound() throws Exception {
         //Given
         doThrow(new ObjectNotFoundException("artifact", "1250808601744904190")).when(this.wizardService).assignArtifactToWizard(1, "1250808601744904190");

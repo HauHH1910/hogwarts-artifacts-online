@@ -51,16 +51,13 @@ public class SecurityConfiguration {
 
     private final CustomBearerTokenAccessDeniedHandlerEntryPoint customBearerTokenAccessDeniedHandlerEntryPoint;
 
-    private final CorsConfig corsConfig;
-
     public SecurityConfiguration(CustomBasicAuthenticationEntryPoint customBasicAuthenticationEntryPoint,
                                  CustomBearerTokenAuthenticationEntryPoint customBearerTokenAuthenticationEntryPoint,
-                                 CustomBearerTokenAccessDeniedHandlerEntryPoint customBearerTokenAccessDeniedHandlerEntryPoint,
-                                 CorsConfig corsConfig) throws NoSuchAlgorithmException {
+                                 CustomBearerTokenAccessDeniedHandlerEntryPoint customBearerTokenAccessDeniedHandlerEntryPoint)
+            throws NoSuchAlgorithmException {
         this.customBasicAuthenticationEntryPoint = customBasicAuthenticationEntryPoint;
         this.customBearerTokenAuthenticationEntryPoint = customBearerTokenAuthenticationEntryPoint;
         this.customBearerTokenAccessDeniedHandlerEntryPoint = customBearerTokenAccessDeniedHandlerEntryPoint;
-        this.corsConfig = corsConfig;
         //Generate a public/private key pair.
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         keyPairGenerator.initialize(2048); // The generated key will have the size of 2048 bits

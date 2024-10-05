@@ -7,6 +7,7 @@ import com.hauhh.common.StatusCode;
 import com.hauhh.exception.ObjectNotFoundException;
 import com.hauhh.dto.UserDTO;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,6 +30,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)//Turn off Spring Security
+@DisplayName("Unit Test for User Controller")
 class UserControllerTest {
 
     @Autowired
@@ -75,6 +77,7 @@ class UserControllerTest {
     }
 
     @Test
+    @DisplayName("Test Get All User (GET)")
     void testGetAllUsersSuccess() throws Exception {
         //Given
         given(userService.getAllUsers()).willReturn(this.users);
@@ -98,6 +101,7 @@ class UserControllerTest {
     }
 
     @Test
+    @DisplayName("Test Find User With VALID userID (GET)")
     void testGetUserByIDSuccess() throws Exception {
         //Given
         given(userService.getUserById(1)).willReturn(user);
@@ -116,6 +120,7 @@ class UserControllerTest {
     }
 
     @Test
+    @DisplayName("Test Find User With INVALID userID (GET)")
     void testGetUserByIDNotFound() throws Exception {
         //Given
         given(userService.getUserById(1)).willThrow(new ObjectNotFoundException("user", 1));
@@ -130,6 +135,7 @@ class UserControllerTest {
     }
 
     @Test
+    @DisplayName("Test Save User With VALID Input (POST)")
     void testCreateUserSuccess() throws Exception {
         //Given
         UserDTO userDTO = UserDTO.builder()
@@ -166,6 +172,7 @@ class UserControllerTest {
     }
 
     @Test
+    @DisplayName("Test Update User With VALID Input (PUT)")
     void testUpdateUserSuccess() throws Exception {
         //Given
         UserDTO userDTO = UserDTO.builder()
@@ -203,6 +210,7 @@ class UserControllerTest {
     }
 
     @Test
+    @DisplayName("Test Update User WIth INVALID Input (PUT)")
     void testUpdateUserNotFound() throws Exception {
         //Given
         String requestBody = this.objectMapper
@@ -227,6 +235,7 @@ class UserControllerTest {
     }
 
     @Test
+    @DisplayName("Test Delete User With VALID Input (DELETE)")
     void testDeleteUserSuccess() throws Exception {
         //Given
         doNothing().when(userService).deleteUser(eq(1));
@@ -241,13 +250,14 @@ class UserControllerTest {
     }
 
     @Test
-    void testDeleteUserNotFound() throws Exception{
+    @DisplayName("Test Delete User With INVALID Input (DELETE)")
+    void testDeleteUserNotFound() throws Exception {
         //Given
         doThrow(new ObjectNotFoundException("user", 1)).when(userService).deleteUser(1);
         //When
         this.mockMvc.perform(delete(this.baseURL + "/1")
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.flag").value(false))
                 .andExpect(jsonPath("$.code").value(404))
                 .andExpect(jsonPath("$.message").value("Could not find user with ID: 1"))
