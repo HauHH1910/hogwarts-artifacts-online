@@ -14,6 +14,7 @@
     DevTools
     Lombok
     Oauth2 Server
+    CI/CD
 <hr>
 
 # How to build application
