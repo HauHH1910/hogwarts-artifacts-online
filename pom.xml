@@ -100,6 +100,15 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+<!--                Prevent Test cases errors during Maven building in CI-->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <reuseForks>false</reuseForks>
+                    <forkCount>1</forkCount>
+                </configuration>
+            </plugin>
         </plugins>
 
         <finalName>HogwartArtifact</finalName>
